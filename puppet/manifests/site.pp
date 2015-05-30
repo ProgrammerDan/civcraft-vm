@@ -1,7 +1,6 @@
 class dev {
   package { [
-        'git', 'git-core', 'git-svn', 'mercurial',
-        'expect', 'nmap', 'subversion', 'vim'
+        'git', 'git-core', 'expect', 'vim'
     ]:
     ensure => latest
   }
