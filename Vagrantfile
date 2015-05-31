@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 25565, host: 25565
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -61,8 +61,10 @@ Vagrant.configure("2") do |config|
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.name = "civcraft" 
     ext_filename = "ext.vdi"
-    vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
-    vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
+	if ARGV[0] == "up" && ! File.exist?(ext_filename)
+      vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
+      vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
+	end
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
