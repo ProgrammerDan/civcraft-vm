@@ -1,6 +1,7 @@
 class dev {
   package { [
-        'git', 'git-core', 'expect', 'vim'
+        'git', 'git-core', 'expect', 'vim', 'screen', 
+		'pico', 'openjdk-7-jdk'
     ]:
     ensure => latest
   }
@@ -21,6 +22,16 @@ class tools {
   package{ ['python-software-properties', 'software-properties-common']:
     ensure => latest
   }
+}
+
+class civcraft {
+	exec { 'civcraft.foldercreate':
+	  command => '/usr/bin/sudo /minecraft'
+	}
+	exec { 'civcraft.folderchown':
+	  require => Exec['civcraft.foldercreate'],
+	  command => '/usr/bin/sudo chown vagrant:vagrant /minecraft'
+	}
 }
 
 node default {
