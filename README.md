@@ -49,6 +49,8 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 ## Setting up Civcraft in your new VM
 
+Note: Most of this should be automated now.
+
 1. sudo apt-get install openjdk-7-jdk
 
 2. sudo mkdir /minecraft
@@ -57,16 +59,26 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 4. cd /minecraft
 
-5. wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.4/minecraft_server.1.8.4.jar
+5. wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.3/minecraft_server.1.8.3.jar
 
-6. java -Xms1G -Xmx1G -jar minecraft_server.1.8.4.jar nogui
+6. java -Xms1G -Xmx1G -jar minecraft_server.1.8.3.jar nogui
 
 7. Server startup will fail. Edit the eula.txt last line, change it to "eula=true"
 
-8. sudo java -Xms1G -Xmx1G -jar minecraft_server.1.8.4.jar nogui
+8. sudo java -Xms1G -Xmx1G -jar minecraft_server.1.8.3.jar nogui
 
 9. Wait for the server world generation to complete.
 
 10. Now, test your server by connecting to it: localhost:25565
 
 Note: If you need to restart your Vagrant for any reason, issue "vagrant reload" at the host terminal.
+
+--------------------
+
+## Setting up development environment
+
+With the latest Civcraft, most of the plugins will leverage spigot 1.8.3. Assuming you've already run "vagrant up" you should be good to run this:
+
+    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/Spigot/pom.xml
+
+If you hadn't done so before trying to run that line, install maven and retry the above line.
