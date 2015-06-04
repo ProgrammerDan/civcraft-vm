@@ -6,4 +6,5 @@ cd /minecraft
 
 java -Xms1G -Xmx1G -jar minecraft_server.jar nogui
 
-
+sed '$ c\
+eula=true' -i eula.txt

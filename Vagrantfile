@@ -49,6 +49,8 @@ Vagrant.configure("2") do |config|
   host_puppet_lib = "./puppet/"
   config.vm.synced_folder host_puppet_lib, guest_puppet_lib
   config.vm.synced_folder ".", "/home/vagrant/host"
+  config.vm.synced_folder "./minecraft", "/minecraft"
+  config.vm.synced_folder "./spigot", "/spigot"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
