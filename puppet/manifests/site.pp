@@ -25,17 +25,32 @@ class tools {
 }
 
 class civcraft {
-	exec { 'civcraft.foldercreate':
-	  command => '/usr/bin/sudo /minecraft'
-	}
-	exec { 'civcraft.folderchown':
-	  require => Exec['civcraft.foldercreate'],
-	  command => '/usr/bin/sudo chown vagrant:vagrant /minecraft'
-	}
+  require dev
+  file { 'civcraft.mcscript':
+    path: '/minecraft/get_and_start_vanilla.sh',
+    ensure: file,
+    mode: '0775'
+  }
+  exec { 'civcraft.minecraftcreate':
+    require => File['civcraft.mcscript'],
+    command => '/minecraft/get_and_start_vanilla.sh'
+  }
+  file { 'civcraft.spscript':
+    require => Exec['civcraft.minecraftcreate'],
+    path: '/spigot/get_and_build_spigot.sh',
+    ensure: file,
+    mode: '0775'
+  }
+  exec { 'civcraft.spigotcreate':
+    require => File['civcraft.spscript'],
+    command => '/spigot/get_and_build_spigot.sh'
+  }
 }
 
 node default {
   include tools
 
   include dev
+
+  include civcraft
 }
