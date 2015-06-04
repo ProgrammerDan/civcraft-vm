@@ -1,7 +1,7 @@
 class dev {
   package { [
         'git', 'git-core', 'expect', 'vim', 'screen', 
-		'pico', 'openjdk-7-jdk'
+		'nano', 'openjdk-7-jdk'
     ]:
     ensure => latest
   }
