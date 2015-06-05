@@ -26,59 +26,100 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 ## How to use this appliance
 
-1. Get Vagrant: https://www.vagrantup.com/downloads.html
+1. Get git: https://git-scm.com/downloads
 
-2. Get VirtualBox: http://download.virtualbox.org/virtualbox/
+2. Get Vagrant: https://www.vagrantup.com/downloads.html
+
+3. Get VirtualBox: http://download.virtualbox.org/virtualbox/
    (check LATEST.TXT for which to download)
 
-3. Install Vagrant (may require restart)
+4. Install git (or one of the many GUI clients, ya wuss)
 
-4. Install VirtualBox (will disconnect your internet, so log off Civcraft)
+5. Install Vagrant (may require restart)
 
-5. Clone this repository locally: git clone git@github.com:ProgrammerDan/civcraft-vm.git
+6. Install VirtualBox (will disconnect your internet, so log off Civcraft)
 
-6. cd into that repository: cd civcraft-vm
+7. Clone this repository locally: `git clone git@github.com:ProgrammerDan/civcraft-vm.git`
 
-7. Issue vagrant up
+8. cd into that repository: cd civcraft-vm
 
-8. SSH into vagrant: vagrant@127.0.0.1:2222 default password vagrant
+9. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
 
-9. Until automated, seek out other resources for setting up Civcraft.
+10. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
+
+11. Until automated, seek out other resources for setting up Civcraft.
 
 ----------------------
 
 ## Setting up Civcraft in your new VM
 
-Note: Most of this should be automated now.
+1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
-1. sudo apt-get install openjdk-7-jdk
+> 1. Minecraft 1.8.3 will be properly initialized
 
-2. sudo mkdir /minecraft
+> 2. EULA will be accepted -- **if you object to this, don't use this VM.**
 
-3. sudo chown vagrant:vagrant /minecraft
+> 3. Spigot 1.8.3 will be built locally using BuildTools
 
-4. cd /minecraft
+> 4. Spigot will be installed as the minecraft_server.jar
 
-5. wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.3/minecraft_server.1.8.3.jar
+> 5. Vanilla MC to Spigot conversion will occur.
 
-6. java -Xms1G -Xmx1G -jar minecraft_server.1.8.3.jar nogui
-
-7. Server startup will fail. Edit the eula.txt last line, change it to "eula=true"
-
-8. sudo java -Xms1G -Xmx1G -jar minecraft_server.1.8.3.jar nogui
-
-9. Wait for the server world generation to complete.
-
-10. Now, test your server by connecting to it: localhost:25565
+2. Now, test your server by connecting to it: localhost:25565
 
 Note: If you need to restart your Vagrant for any reason, issue "vagrant reload" at the host terminal.
 
+3. Proceed into installing Civcraft server mods.
+
 --------------------
 
-## Setting up development environment
+## Setting up your host machine as a development environment
 
-With the latest Civcraft, most of the plugins will leverage spigot 1.8.3. Assuming you've already run "vagrant up" you should be good to run this:
+1. Install Maven: https://maven.apache.org/download.cgi
+
+2. Install a Java Development Environment
+
+> * Eclipse is good: https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr2
+
+> * IntelliJ is good: https://www.jetbrains.com/idea/download/
+
+> * Hardcore? Notepad++ is popular: https://notepad-plus-plus.org/download/
+
+> * Textpad is a good hardcore for Windows: http://www.textpad.com/download/
+
+> * Badass? Vim: http://www.vim.org/download.php or Emacs: http://www.gnu.org/software/emacs/#Obtaining
+
+3. Install git if you haven't already: https://git-scm.com/downloads
+
+4. Install spigot into your maven repository:
 
     mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/Spigot/pom.xml
 
-If you hadn't done so before trying to run that line, install maven and retry the above line.
+
+--------------------
+
+## Setting up the VM as a development environment
+
+1. Install maven on the VM: `sudo apt-get install maven`
+
+2. With the latest Civcraft, most of the plugins will leverage spigot 1.8.3. The VM provisioning compiled spigot, so run this:
+
+    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/Spigot/pom.xml
+
+3. Checkout out your favorite Civcraft mod and start hacking: https://github.com/Civcraft/
+
+--------------------
+
+## Post set-up in either case
+
+1. Check out your favorite Civcraft mod and start hacking: https://github.com/Civcraft/
+
+2. Most of them are "good" mods and after cloning them locally you can issue: 
+
+    mvn clean package "-Dbuild.number=Local"
+
+That builds the mod, and puts the output jar in ./target off the repository root.
+
+The build.number stuff just gives a meaningful assignment to the incremental build number in the POM (maven details, go read up on it).
+
+3. Drop the built jars into the ./minecraft folder and restart the minecraft server on the VM.
