@@ -17,6 +17,7 @@ echo Not sure how long this will take, so sit back and relax.
 if [ -e spigot-1.8.3.jar ]
 then
 	cp spigot-1.8.3.jar /minecraft/minecraft-server.jar
+	cp *.jar /spigot/
 else
 	echo Failed to generate spigot!
 	exit 404
