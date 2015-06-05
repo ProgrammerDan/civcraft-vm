@@ -37,10 +37,10 @@ fi
 
 sleep 30
 
-echo We have waited long enough, killing the process.
+echo 'We have waited long enough, killing the process.'
 
 kill -15 %1
 
 sleep 30
 
-echo Ok, let's move on.
+echo 'Ok, let us move on.'
