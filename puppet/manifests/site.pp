@@ -33,7 +33,8 @@ class civcraft {
   }
   exec { 'civcraft.minecraftcreate':
     require => File['civcraft.mcscript'],
-    command => '/minecraft/get_and_start_vanilla.sh'
+    command => '/minecraft/get_and_start_vanilla.sh',
+	timeout => 0
   }
   file { 'civcraft.spscript':
     require => Exec['civcraft.minecraftcreate'],
@@ -43,7 +44,8 @@ class civcraft {
   }
   exec { 'civcraft.spigotcreate':
     require => File['civcraft.spscript'],
-    command => '/spigot/get_and_build_spigot.sh'
+    command => '/spigot/get_and_build_spigot.sh',
+	timeout => 0
   }
 }
 
