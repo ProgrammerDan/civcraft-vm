@@ -61,6 +61,7 @@ Vagrant.configure("2") do |config|
   #   vb.gui = true
   #
     # Use VBoxManage to customize the VM. For example to change memory:
+	vb.memory = 2048
     vb.name = "civcraft" 
     ext_filename = "ext.vdi"
 	if ARGV[0] == "up" && ! File.exist?(ext_filename)

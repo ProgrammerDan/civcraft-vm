@@ -45,7 +45,8 @@ class civcraft {
   exec { 'civcraft.spigotcreate':
     require => File['civcraft.spscript'],
     command => '/spigot/get_and_build_spigot.sh',
-	timeout => 0
+	timeout => 0,
+	logoutput => true
   }
 }
 
