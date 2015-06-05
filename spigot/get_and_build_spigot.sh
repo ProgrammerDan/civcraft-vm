@@ -6,11 +6,11 @@ wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifac
 
 git config --global --unset core.autocrlf
 
-java -jar BuildTools.jar --rev 1.8.3
+sudo su vagrant -c "java -jar BuildTools.jar --rev 1.8.3"
 
 echo Not sure how long this will take, so sit back and relax.
 
-if [-e spigot-1.8.3.jar]
+if [ -e spigot-1.8.3.jar ]
 then
 	cp spigot-1.8.3.jar /minecraft/minecraft-server.jar
 else
