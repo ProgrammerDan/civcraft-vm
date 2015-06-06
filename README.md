@@ -1,7 +1,13 @@
 # civcraft-vm
 Virtual Machine appliance using Vagrant and puppet to auto provision a Civcraft-compatible testing machine
 
-My target for this is to get as far along the path to having a working, running Civcraft server at the end of the script as possible. This is pretty ambitious, so what is more likely is:
+---------
+
+**DISCLAIMER:** Use of this VM appliance indicates you agree with Minecraft's EULA! If you don't, or don't know what I'm talking about, don't use this VM appliance until you do, and can agree with it.
+
+----------------
+
+My target for this is to get as far along the path to having a working, running Civcraft server at the end of the script as possible. What I have so far:
 
 1. Basic VM provisioning
 
@@ -15,14 +21,11 @@ My target for this is to get as far along the path to having a working, running 
 
 6. Spigot server replace Minecraft
 
-7. Spigot server execution
-
-with the core mods being in the hands of the developer.
+with the core mods being in the hands of the developer -- for now. That's next.
 
 I'll likely also add here *first* some how-tos in terms of getting mods set up that play nice with the server, and will submit refined versions to go in Dr_Jawa and/or Erocs' guides.
 
 --------------------------
-
 
 ## How to use this appliance
 
@@ -31,7 +34,10 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 2. Get Vagrant: https://www.vagrantup.com/downloads.html
 
 3. Get VirtualBox: http://download.virtualbox.org/virtualbox/
-   (check LATEST.TXT for which to download)
+
+    * (check LATEST.TXT for which to download)
+	
+	* Note that if you are running Windows 8, be warned that installing VirtualBox's bridge adapter may [break standby and Windows 8 Fast Shutdown](http://www.reddit.com/r/Civcraft/comments/38nrd2/morning_changelog_20150605/crwvoqc).
 
 4. Install git (or one of the many GUI clients, ya wuss)
 
@@ -55,15 +61,15 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
-> 1. Minecraft 1.8.3 will be properly initialized
+    1. Minecraft 1.8.3 will be properly initialized
 
-> 2. EULA will be accepted -- **if you object to this, don't use this VM.**
+    2. EULA will be accepted -- **if you object to this, don't use this VM.**
 
-> 3. Spigot 1.8.3 will be built locally using BuildTools
+    3. Spigot 1.8.3 will be built locally using BuildTools
 
-> 4. Spigot will be installed as the minecraft_server.jar
+    4. Spigot will be installed as the minecraft_server.jar
 
-> 5. Vanilla MC to Spigot conversion will occur.
+    5. Vanilla MC to Spigot conversion will occur.
 
 2. Now, test your server by connecting to it: localhost:25565
 
@@ -79,34 +85,29 @@ Note: If you need to restart your Vagrant for any reason, issue "vagrant reload"
 
 2. Install a Java Development Environment
 
-> * Eclipse is good: https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr2
+    * Eclipse is good: https://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr2
 
-> * IntelliJ is good: https://www.jetbrains.com/idea/download/
+    * IntelliJ is good: https://www.jetbrains.com/idea/download/
 
-> * Hardcore? Notepad++ is popular: https://notepad-plus-plus.org/download/
+    * Hardcore? Notepad++ is popular: https://notepad-plus-plus.org/download/
 
-> * Textpad is a good hardcore for Windows: http://www.textpad.com/download/
+    * Textpad is a good hardcore for Windows: http://www.textpad.com/download/
 
-> * Badass? Vim: http://www.vim.org/download.php or Emacs: http://www.gnu.org/software/emacs/#Obtaining
+    * Badass? Vim: http://www.vim.org/download.php or Emacs: http://www.gnu.org/software/emacs/#Obtaining
 
 3. Install git if you haven't already: https://git-scm.com/downloads
 
-4. Install spigot into your maven repository:
+4. Install spigot & craftbukkit into your maven repository:
 
-    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/Spigot/pom.xml
+    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/spigot-pom.xml
 
+    mvn install:install-file -Dfile=./spigot/craftbukkit-1.8.3.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/craftbukkit-pom.xml
 
 --------------------
 
 ## Setting up the VM as a development environment
 
-1. Install maven on the VM: `sudo apt-get install maven`
-
-2. With the latest Civcraft, most of the plugins will leverage spigot 1.8.3. The VM provisioning compiled spigot, so run this:
-
-    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/Spigot/pom.xml
-
-3. Checkout out your favorite Civcraft mod and start hacking: https://github.com/Civcraft/
+Already done! Unlike your local machine, the dev environment has already installed spigot and craftbukkit compiled artifacts into the Maven repository, so you're ready to start developing out of the box.
 
 --------------------
 
@@ -116,10 +117,10 @@ Note: If you need to restart your Vagrant for any reason, issue "vagrant reload"
 
 2. Most of them are "good" mods and after cloning them locally you can issue: 
 
-    mvn clean package "-Dbuild.number=Local"
+    * `mvn clean package "-Dbuild.number=Local"`
 
-That builds the mod, and puts the output jar in ./target off the repository root.
+    * That builds the mod, and puts the output jar in ./target off the repository root.
 
-The build.number stuff just gives a meaningful assignment to the incremental build number in the POM (maven details, go read up on it).
+    *  The build.number stuff just gives a meaningful assignment to the incremental build number in the POM (maven details, go read up on it).
 
-3. Drop the built jars into the ./minecraft folder and restart the minecraft server on the VM.
+3. Drop the built jars into the vm's `/minecraft` folder and restart the minecraft server on the VM.

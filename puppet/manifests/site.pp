@@ -1,7 +1,7 @@
 class dev {
   package { [
         'git', 'git-core', 'expect', 'vim', 'screen', 
-		'nano', 'openjdk-7-jdk'
+		'nano', 'openjdk-7-jdk', 'maven'
     ]:
     ensure => latest
   }
@@ -34,7 +34,7 @@ class civcraft {
   exec { 'civcraft.minecraftcreate':
     require => File['civcraft.mcscript'],
     command => '/minecraft/get_and_start_vanilla.sh',
-	timeout => 0
+    timeout => 0
   }
   file { 'civcraft.spscript':
     require => Exec['civcraft.minecraftcreate'],
@@ -45,8 +45,20 @@ class civcraft {
   exec { 'civcraft.spigotcreate':
     require => File['civcraft.spscript'],
     command => '/spigot/get_and_build_spigot.sh',
-	timeout => 0,
-	logoutput => true
+    timeout => 0,
+    logoutput => true
+  }
+  file { 'civcraft.spigotcontrol':
+    require => Exec['civcraft.spigotcreate'],
+    path => '/minecraft/control.sh',
+    ensure => file,
+    mode => '0775'
+  }
+  exec { 'civcraft.spigotserver':
+    require => Exec['civcraft.spigotcontrol'],
+    command => '/minecraft/control.sh start',
+    timeout => 0, 
+    logoutput => true
   }
 }
 

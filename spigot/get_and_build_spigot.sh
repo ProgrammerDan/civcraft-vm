@@ -10,15 +10,24 @@ wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifac
 
 git config --global --unset core.autocrlf
 
-sudo su vagrant -c "java -Xmx1500M -jar BuildTools.jar --rev 1.8.3"
-
 echo Not sure how long this will take, so sit back and relax.
+
+sudo su vagrant -c "java -Xmx1500M -jar BuildTools.jar --rev 1.8.3"
 
 if [ -e spigot-1.8.3.jar ]
 then
-	cp spigot-1.8.3.jar /minecraft/minecraft-server.jar
-	cp *.jar /spigot/
+	cp spigot-1.8.3.jar /minecraft/minecraft_server.jar
+	cp spigot-1.8.3.jar /spigot/
+	cp craftbukkit-1.8.3.jar /spigot/
+	cp Spigot/pom.xml /spigot/spigot-pom.xml
+	cp CraftBukkit/pom.sml /spigot/craftbukkit-pom.xml
 else
 	echo Failed to generate spigot!
 	exit 404
 fi
+
+echo Initial install of spigot jars to maven.
+
+mvn install:install-file -Dfile=spigot-1.8.3.jar -Dpackaging=jar -DpomFile=Spigot/Spigot-Server/pom.xml
+
+mvn install:install-file -Dfile=craftbukkit-1.8.3.jar -Dpackaging=jar -DpomFile=CraftBukkit/pom.xml
