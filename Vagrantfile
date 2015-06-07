@@ -45,6 +45,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+  guest_puppet_logs = "/tmp/puppet.log"
   guest_puppet_lib = "/tmp/puppet_lib/"
   host_puppet_lib = "./puppet/"
   config.vm.synced_folder host_puppet_lib, guest_puppet_lib
@@ -74,7 +75,7 @@ Vagrant.configure("2") do |config|
   # are contained in a directory path relative to this Vagrantfile.
   modulepath = guest_puppet_lib + 'modules:' + guest_puppet_lib + 'third-party'
   config.vm.provision :puppet do |puppet|
-    puppet.options = "--verbose --debug --parser future --modulepath=" + modulepath
+    puppet.options = "--verbose --debug --logdest " + guest_puppet_logs + " --parser future --modulepath=" + modulepath
     puppet.manifests_path = host_puppet_lib + "manifests"
     puppet.manifest_file  = "site.pp"
   end
