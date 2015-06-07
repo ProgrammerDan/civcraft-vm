@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo based on command and PID and screen control minecraft
-echo but for now just do a dumb switch with Screen based controls
-
 cd /minecraft
 
 if [[ "$1" == "start" ]]
@@ -13,14 +10,15 @@ then
 		sleep 3
 		screen 
 	else
-		screen -d -S mc_screen -m bash -c 'java -Xmx1500M -Xms500M -XX:MaxPermSize=256M -jar minecraft_server.jar nogui'
+		screen -d -S mc_screen -m -p 0 bash -c 'java -Xmx1500M -Xms500M -XX:MaxPermSize=256M -jar minecraft_server.jar nogui'
 		touch .mc_screen
 	fi
 elif [[ "$1" == "stop" ]]
 then 
 	if [ -e '.mc_screen' ]
 	then
-		screen -S mc_screen -p 0 -X stuff 'stop'
+		screen -S mc_screen -p 0 -X stuff 'stop
+'
 		rm .mc_screen
 	else
 		echo Minecraft seems to already be stopped?
