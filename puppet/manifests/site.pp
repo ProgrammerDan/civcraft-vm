@@ -55,7 +55,7 @@ class civcraft {
     mode => '0775'
   }
   exec { 'civcraft.spigotserver':
-    require => Exec['civcraft.spigotcontrol'],
+    require => File['civcraft.spigotcontrol'],
     command => '/minecraft/control.sh start',
     timeout => 0, 
     logoutput => true
