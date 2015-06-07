@@ -62,6 +62,19 @@ class civcraft {
   }
 }
 
+class civcraftdev {
+  require civcraft
+  exec { 'civcraftdev.prep_all':
+    command => 'cp /civcraft_dev/*.sh /civcraft_build/'
+  }
+  file { 'civcraftdev.namelayer':
+    require => Exec['civcraftdev.prep_all'],
+    path => '/civcraft_build/namelayer-git.sh'
+    ensure => file,
+    mode => '0775'
+  }
+}
+
 node default {
   include tools
 
