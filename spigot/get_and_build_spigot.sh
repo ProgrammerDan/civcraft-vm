@@ -19,7 +19,7 @@ then
 	cp spigot-1.8.3.jar /minecraft/minecraft_server.jar
 	cp spigot-1.8.3.jar /spigot/
 	cp craftbukkit-1.8.3.jar /spigot/
-	cp Spigot/pom.xml /spigot/spigot-pom.xml
+	cp Spigot/Spigot-Server/pom.xml /spigot/spigot-pom.xml
 	cp CraftBukkit/pom.sml /spigot/craftbukkit-pom.xml
 else
 	echo Failed to generate spigot!

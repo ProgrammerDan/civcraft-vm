@@ -1,26 +1,18 @@
 class dev {
   package { [
         'git', 'git-core', 'expect', 'vim', 'screen', 
-		'nano', 'openjdk-7-jdk', 'maven'
+        'nano', 'openjdk-7-jdk', 'maven'
     ]:
     ensure => latest
   }
-}
-
-class tools {
-  exec { 'tmux.apt-add-repository':
-    command => '/usr/bin/sudo /usr/bin/apt-add-repository -y ppa:pi-rho/dev'
+  package { [
+        'openjdk-6-jdk', 'openjdk-6-jre'
+    ]:
+    ensure => absent
   }
-  exec { 'tmux.apt-update':
-    require => Exec['tmux.apt-add-repository'],
-    command => '/usr/bin/sudo /usr/bin/apt-get update'
-  }
-  exec { 'tmux.install':
-    require => Exec['tmux.apt-update'],
-    command => '/usr/bin/sudo /usr/bin/apt-get -y install tmux=1.9a-1~ppa1~p'
-  }
-  package{ ['python-software-properties', 'software-properties-common']:
-    ensure => latest
+  exec { 'dev.rightjdk':
+    require => Package['openjdk-7-jdk'],
+    command => 'sudo update-java-alternatives -s java-1.7.0*'
   }
 }
 
@@ -69,15 +61,13 @@ class civcraftdev {
   }
   file { 'civcraftdev.namelayer':
     require => Exec['civcraftdev.prep_all'],
-    path => '/civcraft_build/namelayer-git.sh'
+    path => '/civcraft_build/namelayer-git.sh',
     ensure => file,
     mode => '0775'
   }
 }
 
 node default {
-  include tools
-
   include dev
 
   include civcraft
