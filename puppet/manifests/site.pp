@@ -12,7 +12,8 @@ class dev {
   }
   exec { 'dev.rightjdk':
     require => Package['openjdk-7-jdk'],
-    command => 'sudo update-java-alternatives -s java-1.7.0*'
+	path => ["/usr/bin/", "/usr/sbin/", "/bin"],
+    command => 'update-java-alternatives -s java-1.7.0*'
   }
 }
 
