@@ -123,4 +123,84 @@ Already done! Unlike your local machine, the dev environment has already install
 
     *  The build.number stuff just gives a meaningful assignment to the incremental build number in the POM (maven details, go read up on it).
 
-3. Drop the built jars into the vm's `/minecraft` folder and restart the minecraft server on the VM.
+3. Drop the built jars into the vm's `/minecraft/plugins` folder and restart the minecraft server on the VM.
+
+-----------------
+
+## Civcraft Clone TODO
+
+Note that currently, Namelayer and Citadel are in constant flux as Rourke and team work on Mercury / Sharding. The following is a stable plugin set:
+
+    CivModCore 1.0.3
+
+    NameLayer 2.3.5-136
+
+    Citadel 3.2.8-130
+
+If you want to contribute to these plugins, you're going to need to go to most recent version on the plugin's master branch; I'll help you as I can.
+
+### CivModCore Setup (1.0.3)
+
+1. Grab the latest CivModCore jar from the Civcraft build server, or build locally
+
+2. Put the jar into `/minecraft/plugins`
+
+3. Continue.
+
+
+### Namelayer Setup (2.3.5-136)
+
+1. Grab the latest jar from Civcraft build server, or build locally
+
+2. Put the jar into `/minecraft/plugins`
+
+3. Start the server, observe the errors
+
+4. Shut down the server.
+
+5. Open `/minecraft/plugins/Namelayer/config.yml` -- note the need for username and password
+
+6. Install mysql -- `sudo apt-get install mysql-server`
+
+    * It's up to you if you want to set a root password; if you don't you'll be asked a bunch of times.
+
+7. Log in to mysql -- `mysql -uroot -p` with whatever password you set, or omit the `-p` if you did not set one.
+
+8. Create namelayer credentials -- `CREATE USER mc_namelayer IDENTIFIED BY 'minecraft';` -- clearly not high security here.
+
+9. Create a database for this user -- `CREATE DATABASE IF NOT EXISTS namelayer`
+
+10. Give permission to use the database to your user -- `GRANT ALL ON namelayer.* TO mc_namelayer`
+
+11. `exit` the mysql shell.
+
+12. Test your user and database -- `mysql namelayer -umc_namelayer -p` entering in password `minecraft` -- if this gives no errors, you're ready to go.
+
+13. Go back to `/minecraft/plugins/Namelayer/config.yml` and edit it to look like this:
+
+    sql:
+	  hostname: localhost
+	  port: 3306
+	  dbname: namelayer
+	  username: 'mc_namelayer'
+	  password: 'minecraft'
+	groups:
+	  enable: true
+
+14. Restart the spigot server.
+
+15. If there are tons of errors, let me know. Any such things are on my to-do to fix this.
+
+16. Stop and restart spigot one last time.
+
+### Citadel Setup (3.2.8-130)
+
+1. If Namelayer is installed, just grab the latest jar from Civcraft build server, or build locally
+
+2. Put the jar into `/minecraft/plugins`
+
+3. Start the server, observe the errors
+
+### Humbug Setup
+
+### FactoryMod Setup
