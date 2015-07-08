@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.4/minecraft_server.1.8.4.jar -O /minecraft/minecraft_server.jar
+wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar -O /minecraft/minecraft_server.jar
 
 cd /minecraft
 
