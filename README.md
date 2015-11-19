@@ -61,11 +61,11 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
-    1. Minecraft 1.8.3 will be properly initialized
+    1. Minecraft 1.8.7 will be properly initialized
 
     2. EULA will be accepted -- **if you object to this, don't use this VM.**
 
-    3. Spigot 1.8.3 will be built locally using BuildTools
+    3. Spigot 1.8.7 will be built locally using BuildTools
 
     4. Spigot will be installed as the minecraft_server.jar
 
@@ -99,9 +99,9 @@ Note: If you need to restart your Vagrant for any reason, issue "vagrant reload"
 
 4. Install spigot & craftbukkit into your maven repository:
 
-    mvn install:install-file -Dfile=./spigot/spigot-1.8.3.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/spigot-pom.xml
+    mvn install:install-file -Dfile=./spigot/spigot-1.8.7.jar -DgroupId=org.spigotmc -DartifactId=spigot -Dversion=1.8.7 -Dpackaging=jar -DpomFile=./spigot/spigot-pom.xml
 
-    mvn install:install-file -Dfile=./spigot/craftbukkit-1.8.3.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8.3 -Dpackaging=jar -DpomFile=./spigot/craftbukkit-pom.xml
+    mvn install:install-file -Dfile=./spigot/craftbukkit-1.8.7.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8.7 -Dpackaging=jar -DpomFile=./spigot/craftbukkit-pom.xml
 
 --------------------
 
