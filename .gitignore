@@ -4,5 +4,3 @@ spigot/craftbukkit-*
 spigot/*.jar
 minecraft/*.jar
 **/*.jar
-./minecraft/
-./spigot/
