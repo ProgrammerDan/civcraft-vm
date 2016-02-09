@@ -15,7 +15,19 @@ if [ $(puppet --version) != '3.3.1' ]
 fi
 SCRIPT
 
+
 Vagrant.configure("2") do |config|
+
+  # Create `minecraft/` and `spigot/` in the root directory
+  # and fills it with scripts before the rest of the vagrantfile runs.
+  # This is to separate the civcraft dev environment from instantiated server files
+  # so that we don't have a convoluted .gitignore filled with every little edge case
+  Dir.mkdir("./minecraft") unless File.exists?("./minecraft")
+  Dir.mkdir("./spigot") unless File.exists?("./spigot")
+  FileUtils.cp_r Dir.glob('scripts/minecraft/*.sh'), './minecraft/'
+  FileUtils.cp_r Dir.glob('scripts/spigot/*.sh'), './spigot/'
+
+
   config.vm.box = "plab"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -45,6 +57,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+
   guest_puppet_lib = "/tmp/puppet_lib/"
   host_puppet_lib = "./puppet/"
   config.vm.synced_folder host_puppet_lib, guest_puppet_lib
@@ -63,7 +76,7 @@ Vagrant.configure("2") do |config|
     #
     # Use VBoxManage to customize the VM. For example to change memory:
 	vb.memory = 2048
-    vb.name = "civcraft" 
+    vb.name = "civcraft"
     ext_filename = "ext.vdi"
 	if ARGV[0] == "up" && ! File.exist?(ext_filename)
       vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
