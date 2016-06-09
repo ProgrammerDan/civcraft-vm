@@ -1,13 +1,15 @@
-# civcraft-vm
-Virtual Machine appliance using Vagrant and puppet to auto provision a Civcraft-compatible testing machine
+# Devoted-vm
+Virtual Machine appliance using Vagrant and puppet to auto provision a Devoted-compatible testing machine
 
 ---------
 
 **DISCLAIMER:** Use of this VM appliance indicates you agree with Minecraft's EULA! If you don't, or don't know what I'm talking about, don't use this VM appliance until you do, and can agree with it.
 
+(Fuck Microsoft. Fuck the EULA. I don't want Minecraft 2 @MS Execs)
+
 ----------------
 
-My target for this is to get as far along the path to having a working, running Civcraft server at the end of the script as possible. What I have so far:
+My target for this is to get as far along the path to having a working, running Devoted server at the end of the script as possible. What I have so far:
 
 1. Basic VM provisioning
 
@@ -45,15 +47,15 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 6. Install VirtualBox (will disconnect your internet, so log off Civcraft)
 
-7. Clone this repository locally: `git clone git@github.com:ProgrammerDan/civcraft-vm.git`
+7. Clone this repository locally: `git clone git@github.com:DevotedMC/devoted-vm.git`
 
-8. cd into that repository: cd civcraft-vm
+8. cd into that repository: cd devoted-vm
 
 9. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
 
 10. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
 
-11. Until automated, seek out other resources for setting up Civcraft.
+11. Until automated, seek out other resources for setting up Devoted.
 
 ----------------------
 
@@ -127,7 +129,7 @@ Already done! Unlike your local machine, the dev environment has already install
 
 -----------------
 
-## Civcraft Clone TODO
+## Devoted Clone TODO
 
 Note that currently, Namelayer and Citadel are in constant flux as Rourke and team work on Mercury / Sharding. The following is a stable plugin set:
 
@@ -150,7 +152,7 @@ If you want to contribute to these plugins, you're going to need to go to most r
 
 ### Namelayer Setup (2.3.5-136)
 
-1. Grab the latest jar from Civcraft build server, or build locally
+1. Grab the latest jar from Civcraft build server, or build locally (links, can we also get Github releases for devotedbuilds?)
 
 2. Put the jar into `/minecraft/plugins`
 
