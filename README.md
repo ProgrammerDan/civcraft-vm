@@ -45,7 +45,7 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 5. Install Vagrant (may require restart)
 
-6. Install VirtualBox (will disconnect your internet, so log off Civcraft)
+6. Install VirtualBox (will disconnect your internet, so log off Devoted)
 
 7. Clone this repository locally: `git clone git@github.com:DevotedMC/devoted-vm.git`
 
@@ -59,7 +59,7 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 ----------------------
 
-## Setting up Civcraft in your new VM
+## Setting up Devoted in your new VM
 
 1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
@@ -77,7 +77,7 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 Note: If you need to restart your Vagrant for any reason, issue "vagrant reload" at the host terminal.
 
-3. Proceed into installing Civcraft server mods.
+3. Proceed into installing Devoted server mods.
 
 --------------------
 
@@ -115,7 +115,7 @@ Already done! Unlike your local machine, the dev environment has already install
 
 ## Post set-up in either case
 
-1. Check out your favorite Civcraft mod and start hacking: https://github.com/Civcraft/
+1. Check out your favorite Devoted mod and start hacking: https://github.com/DevotedMC/
 
 2. Most of them are "good" mods and after cloning them locally you can issue: 
 
