@@ -52,7 +52,7 @@ Vagrant.configure("2") do |config|
   # Default value: false
   # config.ssh.forward_agent = true
 
-  config.vm.provision :shell, :inline => $puppet_update_script
+  #config.vm.provision :shell, :inline => $puppet_update_script
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
@@ -78,11 +78,11 @@ Vagrant.configure("2") do |config|
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.memory = 3072
     vb.name = "devoted"
-    ext_filename = "ext.vdi"
+    ext_filename = "ext3.vdi"
     if ARGV[0] == "up" && ! File.exist?(ext_filename)
       vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
-      vb.customize ["storageattach", vb.name, "--storagectl", "IDE Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
     end
+    vb.customize ["storageattach", vb.name, "--storagectl", "IDE Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename, "--device", "0"]
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
