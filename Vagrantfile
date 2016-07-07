@@ -31,7 +31,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "plab"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+  #config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+  config.vm.box_url = "https://vagrantcloud.com/puppetlabs/boxes/ubuntu-16.04-32-puppet/versions/1.0.0/providers/virtualbox.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -75,13 +76,13 @@ Vagrant.configure("2") do |config|
     #   vb.gui = true
     #
     # Use VBoxManage to customize the VM. For example to change memory:
-  	vb.memory = 2048
-      vb.name = "civcraft"
-      ext_filename = "ext.vdi"
-  	if ARGV[0] == "up" && ! File.exist?(ext_filename)
-        vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
-        vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
-  	end
+    vb.memory = 3072
+    vb.name = "devoted"
+    ext_filename = "ext.vdi"
+    if ARGV[0] == "up" && ! File.exist?(ext_filename)
+      vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
+      vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
+    end
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
