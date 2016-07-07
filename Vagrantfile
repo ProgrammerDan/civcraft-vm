@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
     ext_filename = "ext.vdi"
     if ARGV[0] == "up" && ! File.exist?(ext_filename)
       vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
-      vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
+      vb.customize ["storageattach", vb.name, "--storagectl", "IDE Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
     end
   end
 
