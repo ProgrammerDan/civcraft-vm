@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network :private_network, ip: "192.168.33.10"
+  config.vm.boot_timeout = 600
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -53,7 +54,7 @@ Vagrant.configure("2") do |config|
   # Default value: false
   # config.ssh.forward_agent = true
   config.ssh.username = 'root'
-  config.ssh.password = 'vagrant'
+  config.ssh.password = 'puppet'
   config.ssh.insert_key = 'true'
 
   #config.vm.provision :shell, :inline => $puppet_update_script
@@ -95,6 +96,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :puppet do |puppet|
     puppet.options = "--verbose --debug"
     puppet.module_path = [host_puppet_lib + 'modules', host_puppet_lib + 'third-party']
+    puppet.environment = 'puppet'
     puppet.manifests_path = host_puppet_lib + "manifests"
     puppet.manifest_file  = "site.pp"
   end
