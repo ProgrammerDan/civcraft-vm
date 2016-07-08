@@ -28,10 +28,11 @@ Vagrant.configure("2") do |config|
   FileUtils.cp_r Dir.glob('scripts/spigot/*.sh'), './spigot/'
 
 
-  config.vm.box = "plab"
+  config.vm.box = "plabi"
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   #config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+  #config.vm.box_version = "1.0.1"
   config.vm.box_url = "https://vagrantcloud.com/puppetlabs/boxes/ubuntu-16.04-32-puppet/versions/1.0.0/providers/virtualbox.box"
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -51,6 +52,9 @@ Vagrant.configure("2") do |config|
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
   # config.ssh.forward_agent = true
+  config.ssh.username = 'root'
+  config.ssh.password = 'vagrant'
+  config.ssh.insert_key = 'true'
 
   #config.vm.provision :shell, :inline => $puppet_update_script
   # Share an additional folder to the guest VM. The first argument is
@@ -61,7 +65,7 @@ Vagrant.configure("2") do |config|
 
   guest_puppet_lib = "/tmp/puppet_lib/"
   host_puppet_lib = "./puppet/"
-  config.vm.synced_folder host_puppet_lib, guest_puppet_lib
+  #config.vm.synced_folder host_puppet_lib, guest_puppet_lib
   config.vm.synced_folder ".", "/home/vagrant/host"
   config.vm.synced_folder "./minecraft", "/minecraft"
   config.vm.synced_folder "./spigot", "/spigot"
@@ -87,10 +91,10 @@ Vagrant.configure("2") do |config|
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
-  modulepath = guest_puppet_lib + 'modules:' + guest_puppet_lib + 'third-party'
-  config.vm.provision "puppet" do |puppet|
+  # modulepath = guest_puppet_lib + 'modules:' + guest_puppet_lib + 'third-party'
+  config.vm.provision :puppet do |puppet|
     puppet.options = "--verbose --debug"
-    puppet.module_path = modulepath
+    puppet.module_path = [host_puppet_lib + 'modules', host_puppet_lib + 'third-party']
     puppet.manifests_path = host_puppet_lib + "manifests"
     puppet.manifest_file  = "site.pp"
   end

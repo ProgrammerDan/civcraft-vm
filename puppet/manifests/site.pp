@@ -1,7 +1,7 @@
 class dev {
   package { [
         'git', 'git-core', 'expect', 'vim', 'screen', 
-        'nano', 'openjdk-7-jdk', 'maven'
+        'nano', 'openjdk-8-jdk', 'maven'
     ]:
     ensure => latest
   }
@@ -11,9 +11,9 @@ class dev {
     ensure => absent
   }
   exec { 'dev.rightjdk':
-    require => Package['openjdk-7-jdk'],
+    require => Package['openjdk-8-jdk'],
 	path => ["/usr/bin/", "/usr/sbin/", "/bin"],
-    command => 'update-java-alternatives -s java-1.7.0*'
+    command => 'update-java-alternatives -s java-1.8.0*'
   }
 }
 

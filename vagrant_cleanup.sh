@@ -3,4 +3,4 @@ vagrant destroy
 rm -r .vagrant/
 rm -r minecraft/
 rm -r spigot/
-rm -r ext.vdi
+rm -r ext*.vdi
