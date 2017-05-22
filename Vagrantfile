@@ -1,11 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-
-#
-# This are the machines
-#
-
 Vagrant.configure("2") do |config|
 
   config.vm.define :devotedmc, autostart: true do |devotedmc_config|
