@@ -6,7 +6,6 @@ Vagrant.configure("2") do |config|
   config.vm.define :devotedmc, autostart: true do |devotedmc_config|
     devotedmc_config.vm.box = "puppetlabs/ubuntu-16.04-64-puppet"
     devotedmc_config.vm.host_name = 'devotedmc.local'
-    devotedmc_config.vm.host_name = 'devotedmc.local'
 
     devotedmc_config.vm.provider "virtualbox" do |v|
       v.memory = 3072
