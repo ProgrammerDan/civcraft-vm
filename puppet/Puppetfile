@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+#^syntax detection
+
+forge "https://forgeapi.puppetlabs.com"
+
+mod 'javadev',           :path => 'custom_modules/javadev'
+mod 'civcraft',          :path => 'custom_modules/civcraft'
+
+mod 'puppetlabs-java', '1.6.0'
