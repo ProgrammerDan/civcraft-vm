@@ -1,0 +1,8 @@
+---
+devotedmc::civcraft::minecraftpath: /minecraft
+devotedmc::civcraft::spigotpath: /spigot
+devotedmc::civcraft::spigotbuildpath: /spigot-build
+devotedmc::civcraft::minecraftuser: vagrant
+devotedmc::civcraft::minecraftversion: 1.10.2
+devotedmc::civcraft::minecraftserver: https://s3.amazonaws.com/Minecraft.Download/versions/1.10.2/minecraft_server.1.10.2.jar
+devotedmc::civcraft::spigotbuildtoolsurl: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar

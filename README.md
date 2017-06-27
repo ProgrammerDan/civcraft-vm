@@ -9,19 +9,13 @@ Virtual Machine appliance using Vagrant and puppet to auto provision a Devoted-c
 
 ----------------
 
-My target for this is to get as far along the path to having a working, running Devoted server at the end of the script as possible. What I have so far:
+This setup takes care of the following:
 
 1. Basic VM provisioning
 
-2. Java and other dependency installations (git, maven)
+2. Java development environment (via a "javadev" puppet module)
 
-3. Minecraft server install
-
-4. Minecraft server startup
-
-5. Spigot server download
-
-6. Spigot server replace Minecraft
+3. Spigot minecraft build
 
 with the core mods being in the hands of the developer -- for now. That's next.
 
@@ -63,15 +57,17 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
-    1. Minecraft 1.8.7 will be properly initialized
+    1. Review the default versions and paths in [puppet/environments/vagrant/data/nodes/devotedmc.yaml](puppet/environments/vagrant/data/nodes/devotedmc.yaml) and change if desired. See the [puppet provisioning documentation](puppet/README.md) for specifics on how this is currently implemented.
 
-    2. EULA will be accepted -- **if you object to this, don't use this VM.**
+    2. Minecraft 1.10.2 will be properly initialized
 
-    3. Spigot 1.8.7 will be built locally using BuildTools
+    3. EULA will be accepted -- **if you object to this, don't use this VM.**
 
-    4. Spigot will be installed as the minecraft_server.jar
+    4. Spigot 1.10.2 will be built locally using BuildTools
 
-    5. Vanilla MC to Spigot conversion will occur.
+    5. Spigot will be installed as the minecraft_server.jar
+
+    6. Vanilla MC to Spigot conversion will occur.
 
 2. Now, test your server by connecting to it: localhost:25565
 
