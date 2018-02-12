@@ -41,15 +41,23 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 6. Install VirtualBox (will disconnect your internet, so log off Devoted)
 
-7. Clone this repository locally: `git clone git@github.com:DevotedMC/devoted-vm.git`
+7. Install puppet: https://downloads.puppetlabs.com/
 
-8. cd into that repository: cd devoted-vm
+8. Install rubygems (if you don't already have it)
 
-9. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
+9. Install librarian-puppet: `gem install librarian-puppet`
 
-10. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
+10. Install the vagrant librarian-puppet plugin (https://github.com/voxpupuli/vagrant-librarian-puppet): vagrant plugin install vagrant-librarian-puppet
 
-11. Until automated, seek out other resources for setting up Devoted.
+11. Clone this repository locally: `git clone git@github.com:DevotedMC/devoted-vm.git`
+
+12. cd into that repository: cd devoted-vm
+
+13. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
+
+14. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
+
+15. Until automated, seek out other resources for setting up Devoted.
 
 ----------------------
 
