@@ -1,25 +1,21 @@
-# civcraft-vm
-Virtual Machine appliance using Vagrant and puppet to auto provision a Civcraft-compatible testing machine
+# Devoted-vm
+Virtual Machine appliance using Vagrant and puppet to auto provision a Devoted-compatible testing machine
 
 ---------
 
 **DISCLAIMER:** Use of this VM appliance indicates you agree with Minecraft's EULA! If you don't, or don't know what I'm talking about, don't use this VM appliance until you do, and can agree with it.
 
+(Fuck Microsoft. Fuck the EULA. I don't want Minecraft 2 @MS Execs)
+
 ----------------
 
-My target for this is to get as far along the path to having a working, running Civcraft server at the end of the script as possible. What I have so far:
+This setup takes care of the following:
 
 1. Basic VM provisioning
 
-2. Java and other dependency installations (git, maven)
+2. Java development environment (via a "javadev" puppet module)
 
-3. Minecraft server install
-
-4. Minecraft server startup
-
-5. Spigot server download
-
-6. Spigot server replace Minecraft
+3. Spigot minecraft build
 
 with the core mods being in the hands of the developer -- for now. That's next.
 
@@ -43,39 +39,49 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 5. Install Vagrant (may require restart)
 
-6. Install VirtualBox (will disconnect your internet, so log off Civcraft)
+6. Install VirtualBox (will disconnect your internet, so log off Devoted)
 
-7. Clone this repository locally: `git clone git@github.com:ProgrammerDan/civcraft-vm.git`
+7. Install puppet: https://downloads.puppetlabs.com/
 
-8. cd into that repository: cd civcraft-vm
+8. Install rubygems (if you don't already have it)
 
-9. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
+9. Install librarian-puppet: `gem install librarian-puppet`
 
-10. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
+10. Install the vagrant librarian-puppet plugin (https://github.com/voxpupuli/vagrant-librarian-puppet): vagrant plugin install vagrant-librarian-puppet
 
-11. Until automated, seek out other resources for setting up Civcraft.
+11. Clone this repository locally: `git clone git@github.com:DevotedMC/devoted-vm.git`
+
+12. cd into that repository: cd devoted-vm
+
+13. Issue `vagrant up`. Note, this will take *a long time* so go do other things while waiting.
+
+14. SSH into vagrant: `vagrant@127.0.0.1:2222` default password `vagrant`
+
+15. Until automated, seek out other resources for setting up Devoted.
 
 ----------------------
 
-## Setting up Civcraft in your new VM
+## Setting up Devoted in your new VM
 
 1. The puppet provisioning issued by Vagrant (don't worry about the details) will handle most of the setup.
 
-    1. Minecraft 1.8.7 will be properly initialized
+    1. Review the default versions and paths in [puppet/environments/vagrant/data/nodes/devotedmc.yaml](puppet/environments/vagrant/data/nodes/devotedmc.yaml) and change if desired. See the [puppet provisioning documentation](puppet/README.md) for specifics on how this is currently implemented.
 
-    2. EULA will be accepted -- **if you object to this, don't use this VM.**
+    2. Minecraft 1.10.2 will be properly initialized
 
-    3. Spigot 1.8.7 will be built locally using BuildTools
+    3. EULA will be accepted -- **if you object to this, don't use this VM.**
 
-    4. Spigot will be installed as the minecraft_server.jar
+    4. Spigot 1.10.2 will be built locally using BuildTools
 
-    5. Vanilla MC to Spigot conversion will occur.
+    5. Spigot will be installed as the minecraft_server.jar
+
+    6. Vanilla MC to Spigot conversion will occur.
 
 2. Now, test your server by connecting to it: localhost:25565
 
 Note: If you need to restart your Vagrant for any reason, issue "vagrant reload" at the host terminal.
 
-3. Proceed into installing Civcraft server mods.
+3. Proceed into installing Devoted server mods.
 
 --------------------
 
@@ -113,7 +119,7 @@ Already done! Unlike your local machine, the dev environment has already install
 
 ## Post set-up in either case
 
-1. Check out your favorite Civcraft mod and start hacking: https://github.com/Civcraft/
+1. Check out your favorite Devoted mod and start hacking: https://github.com/DevotedMC/
 
 2. Most of them are "good" mods and after cloning them locally you can issue: 
 
@@ -127,7 +133,7 @@ Already done! Unlike your local machine, the dev environment has already install
 
 -----------------
 
-## Civcraft Clone TODO
+## Devoted Clone TODO
 
 Note that currently, Namelayer and Citadel are in constant flux as Rourke and team work on Mercury / Sharding. The following is a stable plugin set:
 
@@ -150,7 +156,7 @@ If you want to contribute to these plugins, you're going to need to go to most r
 
 ### Namelayer Setup (2.3.5-136)
 
-1. Grab the latest jar from Civcraft build server, or build locally
+1. Grab the latest jar from Civcraft build server, or build locally (links, can we also get Github releases for devotedbuilds?)
 
 2. Put the jar into `/minecraft/plugins`
 

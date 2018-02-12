@@ -1,0 +1,13 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - "nodes/%{::hostname}"
+  - "common"
+  - "secrets"
+
+:yaml:
+  :datadir: '/tmp/vagrant-puppet/environments/%{::environment}/data/'
+
+  :merge_behavior: deeper

@@ -1,95 +1,57 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-#If api.puppetlabs.com is down or otherwise unreachable, everything will break.
-#There is no workaround currently in place.
-$puppet_update_script  = <<SCRIPT
-cd /tmp
-wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb
-sudo dpkg -i puppetlabs-release-precise.deb
-sudo apt-get update
-if [ $(puppet --version) != '3.3.1' ]
-  then
-    sudo apt-get remove puppet -y
-    sudo apt-get install puppet -y
-fi
-SCRIPT
-
-
 Vagrant.configure("2") do |config|
 
-  # Create `minecraft/` and `spigot/` in the root directory
-  # and fills it with scripts before the rest of the vagrantfile runs.
-  # This is to separate the civcraft dev environment from instantiated server files
-  # so that we don't have a convoluted .gitignore filled with every little edge case
-  Dir.mkdir("./minecraft") unless File.exists?("./minecraft")
-  Dir.mkdir("./spigot") unless File.exists?("./spigot")
-  FileUtils.cp_r Dir.glob('scripts/minecraft/*.sh'), './minecraft/'
-  FileUtils.cp_r Dir.glob('scripts/spigot/*.sh'), './spigot/'
+  config.vm.define :devotedmc, autostart: true do |devotedmc_config|
+    devotedmc_config.vm.box = "puppetlabs/ubuntu-16.04-64-puppet"
+    devotedmc_config.vm.host_name = 'devotedmc.local'
 
+    devotedmc_config.vm.provider "virtualbox" do |v|
+      v.memory = 3072
+      v.cpus = 1
+      v.name = "devotedmc.local"
+      ext_filename = "ext3.vdi"
+      if ARGV[0] == "up" && ! File.exist?(ext_filename)
+        v.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
+      end
+      v.customize ["storageattach", v.name, "--storagectl", "IDE Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename, "--device", "0"]
+    end
 
-  config.vm.box = "plab"
-  # The url from where the 'config.vm.box' box will be fetched if it
-  # doesn't already exist on the user's system.
-  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box"
+    # Create a forwarded port mapping which allows access to a specific port
+    # within the machine from a port on the host machine. In the example below,
+    # accessing "localhost:8080" will access port 80 on the guest machine.
+    devotedmc_config.vm.network :forwarded_port, guest: 25565, host: 25565
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 25565, host: 25565
+    # Create a private network, which allows host-only access to the machine
+    # using a specific IP.
+    devotedmc_config.vm.network :private_network, ip: "192.168.33.10"
+    devotedmc_config.vm.boot_timeout = 600
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network :private_network, ip: "192.168.33.10"
+    devotedmc_config.vm.synced_folder "puppet", "/srv/puppet", mount_options: ["dmode=777", "fmode=666"]
+    #devotedmc_config.vm.synced_folder "./minecraft", "/minecraft"
+    #devotedmc_config.vm.synced_folder "./spigot", "/spigot"
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network :public_network
+    devotedmc_config.librarian_puppet.puppetfile_dir = "puppet"
+    devotedmc_config.librarian_puppet.placeholder_filename = ".MYPLACEHOLDER"
+    devotedmc_config.librarian_puppet.use_v1_api  = '3' # Check https://github.com/rodjek/librarian-puppet#how-to-use
+    devotedmc_config.librarian_puppet.destructive = false # Check https://github.com/rodjek/librarian-puppet#how-to-use
 
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  # config.ssh.forward_agent = true
+    devotedmc_config.vm.provision :shell do |shell|
+      #shell.inline = "wget -O - https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet.sh | sudo sh"
+      shell.inline = "if [ ! -f /opt/puppetlabs/bin/puppet ]; then wget -O - https://raw.githubusercontent.com/petems/puppet-install-shell/master/install_puppet_agent.sh | sudo sh; fi ; apt-get update;"
+    end
 
-  config.vm.provision :shell, :inline => $puppet_update_script
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  guest_puppet_lib = "/tmp/puppet_lib/"
-  host_puppet_lib = "./puppet/"
-  config.vm.synced_folder host_puppet_lib, guest_puppet_lib
-  config.vm.synced_folder ".", "/home/vagrant/host"
-  config.vm.synced_folder "./minecraft", "/minecraft"
-  config.vm.synced_folder "./spigot", "/spigot"
-  config.vm.synced_folder "./civcraft_dev", "/civcraft_dev"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  config.vm.provider :virtualbox do |vb|
-    #   # Don't boot with headless mode
-    #   vb.gui = true
-    #
-    # Use VBoxManage to customize the VM. For example to change memory:
-  	vb.memory = 2048
-      vb.name = "civcraft"
-      ext_filename = "ext.vdi"
-  	if ARGV[0] == "up" && ! File.exist?(ext_filename)
-        vb.customize ["createhd", "--filename", ext_filename, "--size", "51200"] #51200 = 50*1024, ie 50 GB
-        vb.customize ["storageattach", vb.name, "--storagectl", "SATA Controller", "--port", "1", "--type", "hdd", "--medium", ext_filename]
-  	end
+    devotedmc_config.vm.provision :puppet do |puppet|
+      puppet.environment = "vagrant"
+      puppet.environment_path = "puppet/environments"
+      puppet.module_path = "puppet/modules/"
+      puppet.manifests_path = "puppet/manifests/"
+      puppet.manifest_file = "vagrant.pp"
+      puppet.hiera_config_path = "puppet/environments/vagrant/hiera.yaml"
+      puppet.options = "--verbose --debug"
+    end
   end
 
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  modulepath = guest_puppet_lib + 'modules:' + guest_puppet_lib + 'third-party'
-  config.vm.provision :puppet do |puppet|
-    puppet.options = "--verbose --debug --parser future --modulepath=" + modulepath
-    puppet.manifests_path = host_puppet_lib + "manifests"
-    puppet.manifest_file  = "site.pp"
-  end
+
 end

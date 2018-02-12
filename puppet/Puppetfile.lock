@@ -1,0 +1,22 @@
+FORGE
+  remote: https://forgeapi.puppetlabs.com
+  specs:
+    puppetlabs-java (1.6.0)
+      puppetlabs-stdlib (< 5.0.0, >= 2.4.0)
+    puppetlabs-stdlib (4.17.0)
+
+PATH
+  remote: custom_modules/civcraft
+  specs:
+    civcraft (0.0.1)
+
+PATH
+  remote: custom_modules/javadev
+  specs:
+    javadev (0.0.1)
+
+DEPENDENCIES
+  civcraft (>= 0)
+  javadev (>= 0)
+  puppetlabs-java (= 1.6.0)
+
