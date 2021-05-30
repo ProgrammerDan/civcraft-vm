@@ -45,7 +45,7 @@ I'll likely also add here *first* some how-tos in terms of getting mods set up t
 
 6. Install VirtualBox (will disconnect your internet, so log off Civcraft)
 
-7. Clone this repository locally: `git clone git@github.com:ProgrammerDan/civcraft-vm.git`
+7. Clone this repository locally: `git clone https://github.com/ProgrammerDan/civcraft-vm.git`
 
 8. cd into that repository: cd civcraft-vm
 
